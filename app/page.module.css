@@ -112,6 +112,16 @@
   border-radius: 8px;
   font-weight: 600;
 }
+.navCtaMobileOutline {
+  padding: 10px 24px;
+  background: transparent;
+  color: var(--accent) !important;
+  border-radius: 8px;
+  font-weight: 600;
+  border: 1px solid var(--accent);
+  display: flex;
+  align-items: center;
+}
 .socialGroupMobile {
   display: flex;
   gap: 1.5rem;
@@ -150,6 +160,24 @@
   background: var(--accent2);
   transform: translateY(-1px);
   box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+}
+.navCtaOutline {
+  padding: 8px 18px;
+  background: transparent;
+  color: var(--text);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+}
+.navCtaOutline:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(99,102,241,0.15);
 }
 
 /* ══════════════════════════════
@@ -739,54 +767,94 @@
 }
 
 /* ══════════════════════════════
-   WHY ME
+   WOW WHY GRID
 ══════════════════════════════ */
-.whyGrid {
+.wowGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
-.whyCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 2rem;
+.wowCard {
+  position: relative;
+  background: var(--bg);
+  border-radius: 20px;
+  padding: 1px;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+.wowCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+  z-index: -2;
+  transition: all 0.4s ease;
+}
+
+.wowCard:hover::before {
+  background: linear-gradient(135deg, var(--accent), #a855f7);
+  transform: scale(1.02);
+  filter: blur(12px);
+  opacity: 0.8;
+}
+
+.wowInner {
+  background: var(--bg2);
+  border-radius: 19px;
+  padding: 2.25rem 2rem;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   gap: 1.25rem;
-  align-items: flex-start;
-  transition: all 0.35s ease;
-}
-.whyCard:hover {
-  border-color: rgba(99,102,241,0.35);
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  z-index: 2;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.4s ease;
 }
 
-.whyIconBox {
-  width: 48px;
-  height: 48px;
-  flex-shrink: 0;
-  border-radius: 12px;
-  background: rgba(99,102,241,0.12);
+.wowCard:hover .wowInner {
+  background: var(--bg);
+  border-color: rgba(255,255,255,0.1);
+}
+
+.wowIconWrap {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(99,102,241,0.1);
+  color: var(--accent);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
   border: 1px solid rgba(99,102,241,0.2);
+  box-shadow: 0 4px 20px rgba(99,102,241,0.15);
+  transition: all 0.4s ease;
 }
 
-.whyTitle {
-  font-size: 1rem;
+.wowCard:hover .wowIconWrap {
+  transform: scale(1.1) rotate(5deg);
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(99,102,241,0.4);
+}
+
+.wowTitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
   font-weight: 700;
   color: var(--text);
-  margin-bottom: 0.35rem;
+  letter-spacing: -0.01em;
 }
-.whyDesc {
-  font-size: 0.87rem;
+
+.wowDesc {
+  font-size: 0.9rem;
   color: var(--muted);
   line-height: 1.6;
 }
+
 
 /* ══════════════════════════════
    CONTACT STRIP
@@ -1041,4 +1109,50 @@
 
 @media (max-width: 480px) {
   .statsGrid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════
+   LANGUAGE SELECTOR PILLS
+══════════════════════════════ */
+.langPills {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  background: var(--glass);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-left: 1rem;
+}
+.langPillsMobile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  background: var(--glass);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  margin-top: 1.5rem;
+}
+.langPill {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Inter', sans-serif;
+}
+.langPill:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.08);
+}
+.langActive.langPill {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 10px var(--glow);
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import { t, Lang } from "./i18n";
 import {
   Code,
   Smartphone,
@@ -11,10 +12,12 @@ import {
   Trophy,
   Target,
   LayoutTemplate,
+  Globe,
   Mail,
   ArrowUpRight,
   Menu,
   X,
+  Download
 } from "lucide-react";
 import { motion, Variants } from "framer-motion";
 
@@ -52,14 +55,16 @@ const projects = [
     category: ["Next.js", "Mobile"],
     image: "/vorax.png",
     link: "https://voraxs.com",
+    i18nKey: "p1"
   },
   {
     id: 2,
     title: "AI CV Analyzer",
-    desc: "LLM-powered system that evaluates CVs against job descriptions, scores candidates, and outputs structured hiring recommendations.",
+    desc: "LLM-powered system that evaluates CVs against job descriptions, scores candidates asynchronously, and outputs actionable hiring recommendations.",
     tech: ["React.js", "Node.js", "OpenAI", "TypeScript"],
     category: ["React"],
     image: "/project_ai_3d_1774309890553.png",
+    i18nKey: "p2"
   },
   {
     id: 3,
@@ -68,6 +73,7 @@ const projects = [
     tech: ["Angular v16+", ".NET 8", "SQL Server"],
     category: ["Angular"],
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
+    i18nKey: "p3"
   },
   {
     id: 4,
@@ -76,6 +82,7 @@ const projects = [
     tech: ["React Native", "Express.js", "MongoDB"],
     category: ["Mobile"],
     image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&q=80&w=800",
+    i18nKey: "p4"
   },
   {
     id: 5,
@@ -84,6 +91,7 @@ const projects = [
     tech: ["PowerApps", "Power Automate", "SharePoint"],
     category: ["Other"],
     image: "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800",
+    i18nKey: "p5"
   },
   {
     id: 6,
@@ -92,6 +100,7 @@ const projects = [
     tech: ["Next.js", "TypeScript", "Stripe"],
     category: ["Next.js"],
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800",
+    i18nKey: "p6"
   },
 ];
 
@@ -100,6 +109,9 @@ const FILTERS = ["All", "Next.js", "Angular", "React", "Mobile"];
 export default function Home() {
   const [filter, setFilter] = useState("All");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [lang, setLang] = useState<Lang>("en");
+  
+  const dict = t[lang];
 
   const filtered = projects.filter(
     (p) => filter === "All" || p.category.includes(filter)
@@ -115,11 +127,22 @@ export default function Home() {
 
         {/* ── DESKTOP LINKS ── */}
         <div className={styles.desktopNavLinks}>
-          <motion.a href="#about" whileTap={{ scale: 0.9 }}>About</motion.a>
-          <motion.a href="#skills" whileTap={{ scale: 0.9 }}>Skills</motion.a>
-          <motion.a href="#timeline" whileTap={{ scale: 0.9 }}>Experience</motion.a>
-          <motion.a href="#portfolio" whileTap={{ scale: 0.9 }}>Projects</motion.a>
-          <motion.a href="#contact" whileTap={{ scale: 0.9 }} className={styles.navCta}>Hire Me</motion.a>
+          <motion.a href="#about" whileTap={{ scale: 0.9 }}>{dict.nav.about}</motion.a>
+          <motion.a href="#skills" whileTap={{ scale: 0.9 }}>{dict.nav.skills}</motion.a>
+          <motion.a href="#timeline" whileTap={{ scale: 0.9 }}>{dict.nav.experience}</motion.a>
+          <motion.a href="#portfolio" whileTap={{ scale: 0.9 }}>{dict.nav.projects}</motion.a>
+          <motion.a href="#contact" whileTap={{ scale: 0.9 }} className={styles.navCta}>{dict.nav.hireMe}</motion.a>
+          <div className={styles.langPills}>
+            {(["en", "fr", "es"] as Lang[]).map((l) => (
+              <button
+                key={l}
+                className={`${styles.langPill} ${lang === l ? styles.langActive : ""}`}
+                onClick={() => setLang(l)}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
           <div className={styles.socialGroup}>
             <a href="https://github.com/mrasgk" target="_blank" rel="noreferrer" className={styles.socialIcon}><IconGithub size={18} /></a>
             <a href="https://ma.linkedin.com/in/rachid-alaoui-selsouli-b748bb3a3" target="_blank" rel="noreferrer" className={styles.socialIcon}><IconLinkedin size={18} /></a>
@@ -140,11 +163,22 @@ export default function Home() {
           <X size={32} />
         </button>
         <div className={styles.mobileNavLinks}>
-          <motion.a href="#about" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>About</motion.a>
-          <motion.a href="#skills" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>Skills</motion.a>
-          <motion.a href="#timeline" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>Experience</motion.a>
-          <motion.a href="#portfolio" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>Projects</motion.a>
-          <motion.a href="#contact" whileTap={{ scale: 0.85 }} className={styles.navCtaMobile} onClick={() => setMenuOpen(false)}>Hire Me</motion.a>
+          <motion.a href="#about" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>{dict.nav.about}</motion.a>
+          <motion.a href="#skills" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>{dict.nav.skills}</motion.a>
+          <motion.a href="#timeline" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>{dict.nav.experience}</motion.a>
+          <motion.a href="#portfolio" whileTap={{ scale: 0.85 }} onClick={() => setMenuOpen(false)}>{dict.nav.projects}</motion.a>
+          <motion.a href="#contact" whileTap={{ scale: 0.85 }} className={styles.navCtaMobile} onClick={() => setMenuOpen(false)}>{dict.nav.hireMe}</motion.a>
+          <div className={styles.langPillsMobile}>
+            {(["en", "fr", "es"] as Lang[]).map((l) => (
+              <button
+                key={l}
+                className={`${styles.langPill} ${lang === l ? styles.langActive : ""}`}
+                onClick={() => setLang(l)}
+              >
+                {l.toUpperCase()}
+              </button>
+            ))}
+          </div>
           <div className={styles.socialGroupMobile}>
             <a href="https://github.com/mrasgk" target="_blank" rel="noreferrer" className={styles.socialIconMobile} onClick={() => setMenuOpen(false)}><IconGithub size={24} /></a>
             <a href="https://ma.linkedin.com/in/rachid-alaoui-selsouli-b748bb3a3" target="_blank" rel="noreferrer" className={styles.socialIconMobile} onClick={() => setMenuOpen(false)}><IconLinkedin size={24} /></a>
@@ -161,23 +195,24 @@ export default function Home() {
           <div className={styles.heroLeft}>
             <div className={styles.badge}>
               <span className={styles.badgeDot} />
-              Available for Freelance & Full-Time
+              {dict.hero.badge}
             </div>
 
             <h1 className={styles.heroTitle}>
-              Full Stack Developer<br />
-              <em>& Product Builder</em>
+              {dict.hero.title1}<br />
+              <em>{dict.hero.title2}</em>
             </h1>
 
             <p className={styles.heroSub}>
-              I specialize in the <strong>JavaScript ecosystem</strong> and adapt across frameworks to build
-              scalable, production-grade web and mobile applications.
-              Bridging <strong>Next.js · Angular · React Native · .NET</strong>.
+              {dict.hero.sub}
             </p>
 
             <div className={styles.heroBtns}>
-              <a href="#portfolio" className={styles.btnPrimary}>View Projects</a>
-              <a href="#contact" className={styles.btnSecondary}>Get In Touch</a>
+              <a href="#portfolio" className={styles.btnPrimary}>{dict.hero.btn1}</a>
+              <a href="#contact" className={styles.btnSecondary}>{dict.hero.btn2}</a>
+              <a href={`/CV_${lang}.pdf`} target="_blank" download className={styles.btnSecondary} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Download size={18} /> {dict.hero.downloadCv}
+              </a>
             </div>
 
             <div className={styles.heroQuickTech}>
@@ -215,30 +250,20 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          <div className={styles.sectionLabel}>About Me</div>
-          <h2 className={styles.sectionTitle}>Developer. Founder. <span>Product Builder.</span></h2>
+          <div className={styles.sectionLabel}>{dict.about.label}</div>
+          <h2 className={styles.sectionTitle}>{dict.about.title1} <span>{dict.about.title2}</span></h2>
           <div className={styles.aboutGrid}>
             <div className={styles.aboutBody}>
-              <p>
-                I'm a <strong>Full Stack Developer and entrepreneur</strong> focused on building scalable,
-                impactful applications from idea to launch. I specialize in the JavaScript ecosystem —
-                Next.js, React, Angular, Vue — combined with powerful backend technologies like <strong>.NET 8</strong> and Node.js.
-              </p>
-              <p>
-                I'm currently building <strong>Vorax</strong>, a sports networking platform that connects people
-                through shared passions and encourages real-world interaction. I build products, not just features.
-              </p>
-              <p>
-                Passionate about clean architecture, performance optimization, and creating digital products that
-                genuinely solve problems. I think like a startup founder, ship like an engineer.
-              </p>
+              <p>{dict.about.p1}</p>
+              <p>{dict.about.p2}</p>
+              <p>{dict.about.p3}</p>
             </div>
             <div className={styles.statsGrid}>
               {[
-                { num: "Vorax", label: "Founder & Lead Engineer" },
-                { num: "10+", label: "Technologies Mastered" },
-                { num: "Web+", label: "Mobile Development" },
-                { num: "End-to-End", label: "Product Lifecycle" },
+                { num: "Vorax", label: dict.stats.founder },
+                { num: "10+", label: dict.stats.tech },
+                { num: "Web+", label: dict.stats.mobile },
+                { num: "End-to-End", label: dict.stats.lifecycle },
               ].map(({ num, label }) => (
                 <div key={label} className={styles.statCard}>
                   <div className={styles.statNum}>{num}</div>
@@ -258,17 +283,17 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          <div className={styles.sectionLabel}>Core Competencies</div>
-          <h2 className={styles.sectionTitle}>My <span>Tech Stack</span></h2>
+          <div className={styles.sectionLabel}>{dict.skills.label}</div>
+          <h2 className={styles.sectionTitle}>{dict.skills.title1} <span>{dict.skills.title2}</span></h2>
           <p className={styles.sectionDesc}>
-            I choose the right technology for the right problem — versatile across the full stack.
+            {dict.skills.desc}
           </p>
 
           <motion.div className={styles.skillsGrid} variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             <div className={styles.skillCard}>
               <div className={styles.skillCardHeader}>
                 <div className={styles.skillIcon}><Code size={20} /></div>
-                <div className={styles.skillCardTitle}>Frontend</div>
+                <div className={styles.skillCardTitle}>{dict.skills.st1}</div>
               </div>
               <div className={styles.pillGroup}>
                 <span className={`${styles.pill} ${styles.pillStar}`}>Next.js ⭐</span>
@@ -283,7 +308,7 @@ export default function Home() {
             <div className={styles.skillCard}>
               <div className={styles.skillCardHeader}>
                 <div className={styles.skillIcon}><Smartphone size={20} /></div>
-                <div className={styles.skillCardTitle}>Mobile</div>
+                <div className={styles.skillCardTitle}>{dict.skills.st2}</div>
               </div>
               <div className={styles.pillGroup}>
                 <span className={`${styles.pill} ${styles.pillStar}`}>React Native ⭐</span>
@@ -296,7 +321,7 @@ export default function Home() {
             <div className={styles.skillCard}>
               <div className={styles.skillCardHeader}>
                 <div className={styles.skillIcon}><Server size={20} /></div>
-                <div className={styles.skillCardTitle}>Backend</div>
+                <div className={styles.skillCardTitle}>{dict.skills.st3}</div>
               </div>
               <div className={styles.pillGroup}>
                 <span className={`${styles.pill} ${styles.pillStar}`}>.NET 8 / C#</span>
@@ -309,7 +334,7 @@ export default function Home() {
             <div className={styles.skillCard}>
               <div className={styles.skillCardHeader}>
                 <div className={styles.skillIcon}><Database size={20} /></div>
-                <div className={styles.skillCardTitle}>Database</div>
+                <div className={styles.skillCardTitle}>{dict.skills.st4}</div>
               </div>
               <div className={styles.pillGroup}>
                 <span className={`${styles.pill} ${styles.pillStar}`}>PostgreSQL</span>
@@ -321,7 +346,7 @@ export default function Home() {
             <div className={styles.skillCard}>
               <div className={styles.skillCardHeader}>
                 <div className={styles.skillIcon}><Brain size={20} /></div>
-                <div className={styles.skillCardTitle}>AI & DevOps</div>
+                <div className={styles.skillCardTitle}>{dict.skills.st5}</div>
               </div>
               <div className={styles.pillGroup}>
                 <span className={`${styles.pill} ${styles.pillStar}`}>Prompt Engineering</span>
@@ -329,6 +354,19 @@ export default function Home() {
                 <span className={styles.pill}>Git / GitHub</span>
                 <span className={styles.pill}>Railway / CD</span>
                 <span className={styles.pill}>Power Platform</span>
+              </div>
+            </div>
+
+            <div className={styles.skillCard}>
+              <div className={styles.skillCardHeader}>
+                <div className={styles.skillIcon}><Globe size={20} /></div>
+                <div className={styles.skillCardTitle}>{dict.skills.st6}</div>
+              </div>
+              <div className={styles.pillGroup}>
+                <span className={`${styles.pill} ${styles.pillStar}`}>{dict.skills.ar}</span>
+                <span className={`${styles.pill} ${styles.pillStar}`}>{dict.skills.en}</span>
+                <span className={styles.pill}>{dict.skills.fr}</span>
+                <span className={styles.pill}>{dict.skills.es}</span>
               </div>
             </div>
           </motion.div>
@@ -344,48 +382,36 @@ export default function Home() {
           variants={fadeUp}
         >
           <div className={styles.sectionLabel}>My Journey</div>
-          <h2 className={styles.sectionTitle}>Experience & <span>Education</span></h2>
-          <p className={styles.sectionDesc}>
-            A brief overview of my professional trajectory and academic studies.
-          </p>
+          <h2 className={styles.sectionTitle}>{dict.timeline.exp} & <span>{dict.timeline.edu}</span></h2>
 
           <div className={styles.timelineWrapper}>
 
             {/* ── COLUMN 1: EXPERIENCE ── */}
             <div className={styles.timelineCol}>
-              <h3 className={styles.timelineHeader}>Work Experience</h3>
+              <h3 className={styles.timelineHeader}>{dict.timeline.exp}</h3>
               <div className={styles.timeline}>
 
                 <motion.div className={styles.timelineItem} variants={fadeUp}>
                   <div className={styles.timelineDot} />
                   <div className={styles.timelineContent}>
-                    <div className={styles.timelineDate}>July 2024 - August 2024</div>
-                    <div className={styles.timelineTitle}>Developer Intern</div>
-                    <div className={styles.timelinePlace}>AQUALAB</div>
-                    <p className={styles.timelineDesc}>
-                      Initial exposure to professional software engineering practices, learning deployment flows and collaborative development in real business environments.
-                    </p>
+                    <div className={styles.timelineDate}>{dict.timeline.work1.date}</div>
+                    <div className={styles.timelineTitle}>{dict.timeline.work1.title}</div>
+                    <div className={styles.timelinePlace}>{dict.timeline.work1.place}</div>
+                    <div className={styles.timelineDesc} style={{ whiteSpace: 'pre-line' }}>{dict.timeline.work1.desc}</div>
                   </div>
                 </motion.div>
 
                 <motion.div className={styles.timelineItem} variants={fadeUp}>
                   <div className={styles.timelineDot} />
                   <div className={styles.timelineContent}>
-                    <div className={styles.timelineDate}>August 2024 - January 2026</div>
-                    <div className={styles.timelineTitle}>Full Stack Developer</div>
-                    <div className={styles.timelinePlace}>BitBot / QBot</div>
-                    <div className={styles.timelineDesc}>
-                      Lead developer across multiple enterprise systems bridging Microsoft ecosystem with modern frontends. <br /><br />
-                      • <strong>Project Robotic</strong>: Angular and .NET architectures.<br />
-                      • <strong>Project CLIMMAG</strong>: PowerApps, Power Automate, .NET, JS, SharePoint, DataVerse.<br />
-                      • <strong>Project IoT</strong>: Real-time workflows with Angular, .NET & SQL Server.<br />
-                      • <strong>Project ACAF / TestQA</strong>: System automation with Power Platform.
-                    </div>
+                    <div className={styles.timelineDate}>{dict.timeline.work2.date}</div>
+                    <div className={styles.timelineTitle}>{dict.timeline.work2.title}</div>
+                    <div className={styles.timelinePlace}>{dict.timeline.work2.place}</div>
+                    <p className={styles.timelineDesc} style={{ whiteSpace: 'pre-line' }}>{dict.timeline.work2.desc}</p>
                     <div className={styles.timelineTags}>
                       <span className={styles.timelineTag}>.NET</span>
                       <span className={styles.timelineTag}>Angular</span>
                       <span className={styles.timelineTag}>Power Platform</span>
-                      <span className={styles.timelineTag}>Dataverse</span>
                       <span className={styles.timelineTag}>SQL Server</span>
                     </div>
                   </div>
@@ -394,12 +420,10 @@ export default function Home() {
                 <motion.div className={styles.timelineItem} variants={fadeUp}>
                   <div className={styles.timelineDot} />
                   <div className={styles.timelineContent}>
-                    <div className={styles.timelineDate}>February 2026 - Present</div>
-                    <div className={styles.timelineTitle}>Founder & Lead Engineer</div>
-                    <div className={styles.timelinePlace}>Vorax — Sports Platform</div>
-                    <p className={styles.timelineDesc}>
-                      Architecting and developing a comprehensive sports networking platform from the ground up. Handling full product lifecycle, deployment, and business scale.
-                    </p>
+                    <div className={styles.timelineDate}>{dict.timeline.work3.date}</div>
+                    <div className={styles.timelineTitle}>{dict.timeline.work3.title}</div>
+                    <div className={styles.timelinePlace}>{dict.timeline.work3.place}</div>
+                    <p className={styles.timelineDesc} style={{ whiteSpace: 'pre-line' }}>{dict.timeline.work3.desc}</p>
                     <div className={styles.timelineTags}>
                       <span className={styles.timelineTag}>Next.js</span>
                       <span className={styles.timelineTag}>React Native</span>
@@ -414,30 +438,26 @@ export default function Home() {
 
             {/* ── COLUMN 2: EDUCATION ── */}
             <div className={styles.timelineCol}>
-              <h3 className={styles.timelineHeader}>Education</h3>
+              <h3 className={styles.timelineHeader}>{dict.timeline.edu}</h3>
               <div className={styles.timeline}>
 
                 <motion.div className={styles.timelineItem} variants={fadeUp}>
                   <div className={styles.timelineDot} />
                   <div className={styles.timelineContent}>
-                    <div className={styles.timelineDate}>2022 - 2024</div>
-                    <div className={styles.timelineTitle}>Preparatory Classes & Computer Science</div>
-                    <div className={styles.timelinePlace}>Université Internationale</div>
-                    <p className={styles.timelineDesc}>
-                      Completed two years of intensive Preparatory Classes alongside foundational Computer Science studies. Built a strong analytical and algorithmic foundation before transitioning to SupMTI.
-                    </p>
+                    <div className={styles.timelineDate}>{dict.timeline.edu1.date}</div>
+                    <div className={styles.timelineTitle}>{dict.timeline.edu1.title}</div>
+                    <div className={styles.timelinePlace}>{dict.timeline.edu1.place}</div>
+                    <p className={styles.timelineDesc}>{dict.timeline.edu1.desc}</p>
                   </div>
                 </motion.div>
 
                 <motion.div className={styles.timelineItem} variants={fadeUp}>
                   <div className={styles.timelineDot} />
                   <div className={styles.timelineContent}>
-                    <div className={styles.timelineDate}>2024 - 2027 (Expected)</div>
-                    <div className={styles.timelineTitle}>Master's in Computer Science / Engineering</div>
-                    <div className={styles.timelinePlace}>SupMTI Oujda</div>
-                    <p className={styles.timelineDesc}>
-                      Currently in my 2nd year of Computer Science bridging into the Master's / Engineering cycle. Deepening my knowledge in advanced software architecture, data structures, and enterprise web solutions.
-                    </p>
+                    <div className={styles.timelineDate}>{dict.timeline.edu2.date}</div>
+                    <div className={styles.timelineTitle}>{dict.timeline.edu2.title}</div>
+                    <div className={styles.timelinePlace}>{dict.timeline.edu2.place}</div>
+                    <p className={styles.timelineDesc}>{dict.timeline.edu2.desc}</p>
                   </div>
                 </motion.div>
 
@@ -458,8 +478,7 @@ export default function Home() {
           viewport={{ once: true }}
         >
           <p className={styles.quoteText}>
-            "I specialize in the JavaScript ecosystem and adapt across frameworks to build scalable applications.
-            I don't just write code — I think in products, architect for scale, and ship with purpose."
+            {dict.quote}
           </p>
         </motion.div>
       </section>
@@ -472,10 +491,10 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          <div className={styles.sectionLabel}>Featured Work</div>
-          <h2 className={styles.sectionTitle}>Selected <span>Projects</span></h2>
+          <div className={styles.sectionLabel}>{dict.projects.label}</div>
+          <h2 className={styles.sectionTitle}>{dict.projects.title1} <span>{dict.projects.title2}</span></h2>
           <p className={styles.sectionDesc}>
-            Filter by technology to see cross-framework expertise in action.
+            {dict.projects.desc}
           </p>
 
           <div className={styles.filters}>
@@ -485,13 +504,15 @@ export default function Home() {
                 onClick={() => setFilter(f)}
                 className={`${styles.fBtn} ${filter === f ? styles.fBtnActive : ""}`}
               >
-                {f}
+                {f === "All" ? dict.projects.all : f}
               </button>
             ))}
           </div>
 
           <motion.div className={styles.projectsGrid} layout>
-            {filtered.map((p) => (
+            {filtered.map((p) => {
+              const pData = (dict.projects as any)[p.i18nKey] || {};
+              return (
               <motion.a
                 href={p.link || undefined}
                 target={p.link ? "_blank" : undefined}
@@ -506,17 +527,18 @@ export default function Home() {
                 transition={{ duration: 0.5 }}
               >
                 <div className={styles.pImgWrap}>
-                  <img src={p.image} alt={p.title} className={styles.pImg} />
+                  <img src={p.image} alt={pData.title || p.title} className={styles.pImg} />
                 </div>
                 <div className={styles.pBody}>
                   <div className={styles.pTechRow}>
                     {p.tech.map((t) => <span key={t} className={styles.pTech}>{t}</span>)}
                   </div>
-                  <h3 className={styles.pTitle}>{p.title}</h3>
-                  <p className={styles.pDesc}>{p.desc}</p>
+                  <h3 className={styles.pTitle}>{pData.title || p.title}</h3>
+                  <p className={styles.pDesc}>{pData.desc || p.desc}</p>
                 </div>
               </motion.a>
-            ))}
+              )
+            })}
           </motion.div>
         </motion.div>
       </section>
@@ -529,47 +551,25 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           variants={fadeUp}
         >
-          <div className={styles.sectionLabel}>Why Choose Me</div>
-          <h2 className={styles.sectionTitle}>What Sets Me <span>Apart</span></h2>
+          <div className={styles.sectionLabel}>{dict.why.label}</div>
+          <h2 className={styles.sectionTitle}>{dict.why.title1} <span>{dict.why.title2}</span></h2>
 
-          <motion.div className={styles.whyGrid} variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+          <motion.div className={styles.wowGrid} variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }}>
             {[
-              {
-                icon: <LayoutTemplate size={22} />,
-                title: "Multi-Framework Expertise",
-                desc: "Deep knowledge across Next.js, Angular, React, and Vue. I don't just use frameworks — I understand the fundamentals behind each.",
-              },
-              {
-                icon: <Smartphone size={22} />,
-                title: "Mobile + Web Mastery",
-                desc: "Seamless transition between high-performance web apps and native-like mobile experiences using React Native.",
-              },
-              {
-                icon: <Trophy size={22} />,
-                title: "Real Product Experience",
-                desc: "Founder of Vorax. I understand the full product lifecycle — from idea and architecture to launch and user retention.",
-              },
-              {
-                icon: <Database size={22} />,
-                title: "Robust Backend Skills",
-                desc: "Building scalable .NET and Node APIs with secure, optimized PostgreSQL and SQL Server database layers.",
-              },
-              {
-                icon: <Target size={22} />,
-                title: "Entrepreneur Mindset",
-                desc: "I build real products designed to solve problems and generate value — not just features requested on a ticket.",
-              },
-              {
-                icon: <Brain size={22} />,
-                title: "AI-Augmented Developer",
-                desc: "Integrating LLMs and prompt engineering into real products. From AI CV analysis to intelligent data pipelines.",
-              },
-            ].map(({ icon, title, desc }) => (
-              <motion.div key={title} className={styles.whyCard} variants={fadeUp}>
-                <div className={styles.whyIconBox}>{icon}</div>
-                <div>
-                  <div className={styles.whyTitle}>{title}</div>
-                  <div className={styles.whyDesc}>{desc}</div>
+              { icon: <LayoutTemplate size={28} />, title: dict.why.c1, desc: dict.why.c1d },
+              { icon: <Smartphone size={28} />, title: dict.why.c2, desc: dict.why.c2d },
+              { icon: <Trophy size={28} />, title: dict.why.c3, desc: dict.why.c3d },
+              { icon: <Database size={28} />, title: dict.why.c4, desc: dict.why.c4d },
+              { icon: <Target size={28} />, title: dict.why.c5, desc: dict.why.c5d },
+              { icon: <Brain size={28} />, title: dict.why.c6, desc: dict.why.c6d },
+            ].map(({ icon, title, desc }, i) => (
+              <motion.div key={`wow-card-${i}`} className={styles.wowCard} variants={fadeUp}>
+                <div className={styles.wowInner}>
+                  <div className={styles.wowIconWrap}>{icon}</div>
+                  <div>
+                    <div className={styles.wowTitle}>{title}</div>
+                    <div className={styles.wowDesc}>{desc}</div>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -586,15 +586,15 @@ export default function Home() {
           transition={{ duration: 0.7 }}
           viewport={{ once: true }}
         >
-          <div className={styles.sectionLabel} style={{ justifyContent: "center" }}>Let's Connect</div>
+          <div className={styles.sectionLabel} style={{ justifyContent: "center" }}>{dict.contact.label}</div>
           <h2 className={styles.contactTitle}>
-            Ready to build<br /><span>something great?</span>
+            {dict.contact.title1}<br /><span>{dict.contact.title2}</span>
           </h2>
           <p className={styles.contactSub}>
-            I seamlessly adapt to teams and ambitious projects. <strong>Freelance or Full-Time Employee — no problem.</strong> I operate as a <strong>Registered Auto-Entrepreneur</strong> for simple B2B invoicing, and I am equally ready to join your internal payroll.
+            {dict.contact.desc}
             <br/><br/>
-            <span style={{ fontSize: '0.9rem', color: 'var(--accent)', display: 'block', marginBottom: '0.4rem' }}>🌍 Available Remote globally or On-Site in Casablanca</span>
-            <span style={{ fontSize: '0.9rem', color: 'var(--accent)', display: 'block' }}>✦ Freelance Rate: ~160 MAD / hr</span>
+            <span style={{ fontSize: '0.9rem', color: 'var(--accent)', display: 'block', marginBottom: '0.4rem' }}>{dict.contact.avail}</span>
+            <span style={{ fontSize: '0.9rem', color: 'var(--accent)', display: 'block' }}>{dict.contact.rate}</span>
           </p>
           <a href="mailto:rachidalaouiselsoli@gmail.com" className={styles.contactLink}>
             <Mail size={18} />
